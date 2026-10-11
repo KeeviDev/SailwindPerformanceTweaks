@@ -67,6 +67,8 @@ namespace PerformanceTweaks
         /// </summary>
         private static void ApplySettingChangesImmediately()
         {
+            ModConfig.SkipUnchangedRopes.SettingChanged += (sender, args) => RopeLod.RebuildAll();
+            ModConfig.SimplifyDistantRopes.SettingChanged += (sender, args) => RopeLod.RebuildAll();
             ModConfig.DirtCameraOnDemand.SettingChanged += (sender, args) => DirtCameraSwitch.Apply(MasterPainter.instance);
         }
     }
