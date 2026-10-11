@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using PerformanceTweaks.Configuration;
+using PerformanceTweaks.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -27,6 +28,7 @@ namespace PerformanceTweaks
                 ModConfig.Bind(Config);
                 LogSettings();
                 ApplyHarmonyPatches();
+                ApplySettingChangesImmediately();
             }
             catch (Exception ex)
             {
@@ -58,6 +60,14 @@ namespace PerformanceTweaks
             {
                 Log.LogInfo(string.Format("Patched {0}.{1}", method.DeclaringType, method.Name));
             }
+        }
+
+        /// <summary>
+        /// Applies settings changed while the game runs without waiting for the affected objects' next natural update.
+        /// </summary>
+        private static void ApplySettingChangesImmediately()
+        {
+            ModConfig.DirtCameraOnDemand.SettingChanged += (sender, args) => DirtCameraSwitch.Apply(MasterPainter.instance);
         }
     }
 }
