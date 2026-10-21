@@ -15,6 +15,7 @@ namespace PerformanceTweaks.Configuration
         public static ConfigEntry<bool> SkipUnchangedRopes { get; private set; }
         public static ConfigEntry<DistantRopeSimplification> SimplifyDistantRopes { get; private set; }
         public static ConfigEntry<RopeDistanceOrigin> RopeDistanceMeasuredFrom { get; private set; }
+        public static ConfigEntry<bool> PauseHiddenRopes { get; private set; }
         public static ConfigEntry<bool> DirtCameraOnDemand { get; private set; }
 
         public static void Bind(ConfigFile config)
@@ -46,6 +47,13 @@ namespace PerformanceTweaks.Configuration
                 RopeDistanceOrigin.Camera,
                 new ConfigDescription(
                     "Where the distance for Simplify distant ropes is measured from: the camera or your character."));
+
+            PauseHiddenRopes = config.Bind(
+                BoatsSection,
+                "Pause hidden ropes",
+                true,
+                new ConfigDescription(
+                    "Updates ropes you can't see only a few times a second."));
 
             DirtCameraOnDemand = config.Bind(
                 RenderingSection,

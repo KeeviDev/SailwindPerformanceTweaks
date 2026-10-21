@@ -29,6 +29,7 @@ namespace PerformanceTweaks
                 LogSettings();
                 ApplyHarmonyPatches();
                 ApplySettingChangesImmediately();
+                gameObject.AddComponent<FrameUpdater>();
             }
             catch (Exception ex)
             {

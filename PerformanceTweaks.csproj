@@ -68,6 +68,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\BoatMotion.cs" />
     <Compile Include="Runtime\DirtCameraSwitch.cs" />
+    <Compile Include="Runtime\FrameUpdater.cs" />
+    <Compile Include="Runtime\HiddenRopePauser.cs" />
     <Compile Include="Runtime\ItemPlacement.cs" />
     <Compile Include="Runtime\RedundantWriteGuard.cs" />
     <Compile Include="Runtime\RopeLod.cs" />

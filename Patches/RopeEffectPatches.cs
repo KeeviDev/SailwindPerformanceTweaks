@@ -21,6 +21,15 @@ namespace PerformanceTweaks.Patches
         }
     }
 
+    [HarmonyPatch(typeof(RopeEffect), "Start")]
+    internal static class RopeEffectStartPatch
+    {
+        private static void Postfix(RopeEffect __instance)
+        {
+            HiddenRopePauser.Register(__instance);
+        }
+    }
+
     [HarmonyPatch(typeof(RopeEffect), nameof(RopeEffect.OnDestroy))]
     internal static class RopeEffectDestroyPatch
     {
