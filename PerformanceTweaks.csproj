@@ -67,6 +67,7 @@
     <Compile Include="Patches\OutlineEffectPatch.cs" />
     <Compile Include="Patches\RedundantItemWritesPatch.cs" />
     <Compile Include="Patches\RopeEffectPatches.cs" />
+    <Compile Include="Patches\SailShadowRaycastPatch.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\BoatMotion.cs" />

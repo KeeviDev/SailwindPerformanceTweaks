@@ -18,6 +18,7 @@ namespace PerformanceTweaks.Configuration
         public static ConfigEntry<DistantRopeSimplification> SimplifyDistantRopes { get; private set; }
         public static ConfigEntry<RopeDistanceOrigin> RopeDistanceMeasuredFrom { get; private set; }
         public static ConfigEntry<bool> PauseHiddenRopes { get; private set; }
+        public static ConfigEntry<bool> SkipSyncForSailWindShadows { get; private set; }
         public static ConfigEntry<bool> DirtCameraOnDemand { get; private set; }
         public static ConfigEntry<bool> OutlineCamerasOnDemand { get; private set; }
 
@@ -72,6 +73,13 @@ namespace PerformanceTweaks.Configuration
                 true,
                 new ConfigDescription(
                     "Updates ropes you can't see only a few times a second."));
+
+            SkipSyncForSailWindShadows = config.Bind(
+                BoatsSection,
+                "Skip sync for sail wind shadows",
+                true,
+                new ConfigDescription(
+                    "Checks the wind shadow between sails against positions from the last physics step."));
 
             DirtCameraOnDemand = config.Bind(
                 RenderingSection,
