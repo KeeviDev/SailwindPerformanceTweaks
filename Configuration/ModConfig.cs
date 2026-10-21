@@ -12,6 +12,7 @@ namespace PerformanceTweaks.Configuration
         private const string RenderingSection = "Rendering";
 
         public static ConfigEntry<bool> SkipRedundantItemUpdates { get; private set; }
+        public static ConfigEntry<bool> FoodDescriptionsOnDemand { get; private set; }
         public static ConfigEntry<bool> SkipUnchangedRopes { get; private set; }
         public static ConfigEntry<DistantRopeSimplification> SimplifyDistantRopes { get; private set; }
         public static ConfigEntry<RopeDistanceOrigin> RopeDistanceMeasuredFrom { get; private set; }
@@ -26,6 +27,13 @@ namespace PerformanceTweaks.Configuration
                 true,
                 new ConfigDescription(
                     "Skips item and crate updates that would change nothing."));
+
+            FoodDescriptionsOnDemand = config.Bind(
+                ItemsSection,
+                "Food descriptions on demand",
+                true,
+                new ConfigDescription(
+                    "Updates a food's description only while you look at it or hold it."));
 
             SkipUnchangedRopes = config.Bind(
                 BoatsSection,
