@@ -60,6 +60,7 @@
     <Compile Include="Configuration\DistantRopeSimplification.cs" />
     <Compile Include="Configuration\ModConfig.cs" />
     <Compile Include="Configuration\RopeDistanceOrigin.cs" />
+    <Compile Include="Patches\CrateContentsPatch.cs" />
     <Compile Include="Patches\FoodDescriptionPatch.cs" />
     <Compile Include="Patches\ItemPlacementPatch.cs" />
     <Compile Include="Patches\MasterPainterPatches.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Runtime\RedundantWriteGuard.cs" />
     <Compile Include="Runtime\RopeLod.cs" />
     <Compile Include="Runtime\RopeShapeKey.cs" />
+    <Compile Include="Runtime\UnmovedCrateContents.cs" />
     <Compile Include="Runtime\UprightRope.cs" />
   </ItemGroup>
   <ItemGroup>

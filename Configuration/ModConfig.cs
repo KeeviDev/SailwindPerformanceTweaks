@@ -12,6 +12,7 @@ namespace PerformanceTweaks.Configuration
         private const string RenderingSection = "Rendering";
 
         public static ConfigEntry<bool> SkipRedundantItemUpdates { get; private set; }
+        public static ConfigEntry<bool> SkipUnmovedCrateContents { get; private set; }
         public static ConfigEntry<bool> FoodDescriptionsOnDemand { get; private set; }
         public static ConfigEntry<bool> SkipUnchangedRopes { get; private set; }
         public static ConfigEntry<DistantRopeSimplification> SimplifyDistantRopes { get; private set; }
@@ -28,6 +29,14 @@ namespace PerformanceTweaks.Configuration
                 true,
                 new ConfigDescription(
                     "Skips item and crate updates that would change nothing."));
+
+            SkipUnmovedCrateContents = config.Bind(
+                ItemsSection,
+                "Skip unmoved crate contents",
+                true,
+                new ConfigDescription(
+                    "Puts the items inside a crate back into place only after the crate has moved or its contents " +
+                    "changed."));
 
             FoodDescriptionsOnDemand = config.Bind(
                 ItemsSection,
