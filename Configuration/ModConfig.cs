@@ -18,6 +18,7 @@ namespace PerformanceTweaks.Configuration
         public static ConfigEntry<RopeDistanceOrigin> RopeDistanceMeasuredFrom { get; private set; }
         public static ConfigEntry<bool> PauseHiddenRopes { get; private set; }
         public static ConfigEntry<bool> DirtCameraOnDemand { get; private set; }
+        public static ConfigEntry<bool> OutlineCamerasOnDemand { get; private set; }
 
         public static void Bind(ConfigFile config)
         {
@@ -69,6 +70,13 @@ namespace PerformanceTweaks.Configuration
                 true,
                 new ConfigDescription(
                     "Turns the hidden dirt camera on only when it is really needed."));
+
+            OutlineCamerasOnDemand = config.Bind(
+                RenderingSection,
+                "Outline cameras on demand",
+                true,
+                new ConfigDescription(
+                    "Renders the highlight outline cameras only while something is highlighted."));
         }
     }
 }

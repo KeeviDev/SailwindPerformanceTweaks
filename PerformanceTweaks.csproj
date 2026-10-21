@@ -63,6 +63,7 @@
     <Compile Include="Patches\FoodDescriptionPatch.cs" />
     <Compile Include="Patches\ItemPlacementPatch.cs" />
     <Compile Include="Patches\MasterPainterPatches.cs" />
+    <Compile Include="Patches\OutlineEffectPatch.cs" />
     <Compile Include="Patches\RedundantItemWritesPatch.cs" />
     <Compile Include="Patches\RopeEffectPatches.cs" />
     <Compile Include="Plugin.cs" />

@@ -3,6 +3,7 @@ using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using PerformanceTweaks.Configuration;
+using PerformanceTweaks.Patches;
 using PerformanceTweaks.Runtime;
 using System;
 using System.Collections.Generic;
@@ -71,6 +72,7 @@ namespace PerformanceTweaks
             ModConfig.SkipUnchangedRopes.SettingChanged += (sender, args) => RopeLod.RebuildAll();
             ModConfig.SimplifyDistantRopes.SettingChanged += (sender, args) => RopeLod.RebuildAll();
             ModConfig.DirtCameraOnDemand.SettingChanged += (sender, args) => DirtCameraSwitch.Apply(MasterPainter.instance);
+            ModConfig.OutlineCamerasOnDemand.SettingChanged += (sender, args) => OutlineEffectPatch.Forget();
         }
     }
 }
