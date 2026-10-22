@@ -13,6 +13,7 @@ namespace PerformanceTweaks.Configuration
 
         public static ConfigEntry<bool> SkipRedundantItemUpdates { get; private set; }
         public static ConfigEntry<bool> SkipUnmovedCrateContents { get; private set; }
+        public static ConfigEntry<bool> FreezeIdleShopItems { get; private set; }
         public static ConfigEntry<bool> FoodDescriptionsOnDemand { get; private set; }
         public static ConfigEntry<bool> SkipUnchangedRopes { get; private set; }
         public static ConfigEntry<DistantRopeSimplification> SimplifyDistantRopes { get; private set; }
@@ -38,6 +39,13 @@ namespace PerformanceTweaks.Configuration
                 new ConfigDescription(
                     "Puts the items inside a crate back into place only after the crate has moved or its contents " +
                     "changed."));
+
+            FreezeIdleShopItems = config.Bind(
+                ItemsSection,
+                "Freeze idle shop items",
+                true,
+                new ConfigDescription(
+                    "Pauses the updates of shop goods while nobody holds or looks at them."));
 
             FoodDescriptionsOnDemand = config.Bind(
                 ItemsSection,

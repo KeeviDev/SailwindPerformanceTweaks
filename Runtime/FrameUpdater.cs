@@ -10,6 +10,7 @@ namespace PerformanceTweaks.Runtime
         private void Update()
         {
             HiddenRopePauser.Update();
+            ShopItemFreezer.Update();
         }
     }
 }

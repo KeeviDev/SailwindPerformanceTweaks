@@ -68,6 +68,7 @@
     <Compile Include="Patches\RedundantItemWritesPatch.cs" />
     <Compile Include="Patches\RopeEffectPatches.cs" />
     <Compile Include="Patches\SailShadowRaycastPatch.cs" />
+    <Compile Include="Patches\ShopItemFreezePatches.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\BoatMotion.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Runtime\RedundantWriteGuard.cs" />
     <Compile Include="Runtime\RopeLod.cs" />
     <Compile Include="Runtime\RopeShapeKey.cs" />
+    <Compile Include="Runtime\ShopItemFreezer.cs" />
     <Compile Include="Runtime\UnmovedCrateContents.cs" />
     <Compile Include="Runtime\UprightRope.cs" />
   </ItemGroup>
