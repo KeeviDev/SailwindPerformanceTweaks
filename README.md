@@ -4,6 +4,8 @@
 
 **Performance Tweaks** optimizes Sailwind and makes it run smoother, most of all in busy ports with your boats moored and shops full of goods. The game updates a lot of things every frame that haven't changed or that nobody is looking at: items lying still, ropes on a moored boat, shop goods on their stalls, cameras that draw nothing. This mod skips that work and picks it up again the moment it matters. Ropes are handled smarter too: distant ones are drawn simplified and the ones out of sight update only a few times a second.
 
+**Tip:** if you want better performance, don't set **Streetlight quality** to high in the game settings. Medium still looks nice and barely affects performance.
+
 ## Where you'll notice it
 
 Measured in a capital with several boats moored and a full mod list; your numbers depend on your PC and your mods:
