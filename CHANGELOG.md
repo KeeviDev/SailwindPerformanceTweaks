@@ -1,5 +1,9 @@
 # Changelog
 
+### Fixed
+
+- Food and pipes in shops no longer keep smoking until you look at them when they appeared at night
+
 ## [1.0.0] - 2026-10-24
 
 ### Initial release

@@ -14,7 +14,7 @@ namespace PerformanceTweaks.Runtime
     internal static class ShopItemFreezer
     {
         private const string KeepUpdatingMarker = "KeepUpdatingInShop";
-        private const int IdleFramesBeforeFreezing = 10;
+        private const int IdleFramesBeforeFreezing = 2;
         private const float IdleSecondsAfterHolding = 1f;
 
         private static readonly AccessTools.FieldRef<GoPointerButton, bool> IsClicked =
@@ -47,8 +47,9 @@ namespace PerformanceTweaks.Runtime
         }
 
         /// <summary>
-        /// Freezes the registered items that have been idle for <see cref="IdleFramesBeforeFreezing"/> frames and thaws
-        /// the frozen ones that are no longer idle. Must run every frame.
+        /// Freezes the registered items that have stayed active and idle for <see cref="IdleFramesBeforeFreezing"/>
+        /// whole frames and at least one physics step, and thaws the frozen ones that are no longer idle. Must run
+        /// every frame.
         /// </summary>
         public static void Update()
         {
@@ -86,15 +87,21 @@ namespace PerformanceTweaks.Runtime
             if (entry.Item.held)
                 entry.LastHeldTime = Time.time;
 
+            if (!entry.IsFrozen && !entry.Item.gameObject.activeInHierarchy)
+            {
+                entry.MarkBusy();
+                return;
+            }
+
             if (!isFreezing || !IsIdle(entry))
             {
                 if (entry.IsFrozen)
                     entry.Thaw();
-                entry.IdleFrames = 0;
+                entry.MarkBusy();
                 return;
             }
 
-            if (!entry.IsFrozen && ++entry.IdleFrames >= IdleFramesBeforeFreezing)
+            if (!entry.IsFrozen && entry.HasIdledLongEnough())
                 entry.Freeze();
         }
 
@@ -136,15 +143,19 @@ namespace PerformanceTweaks.Runtime
 
         private sealed class FreezableItem
         {
-            public readonly ShipItem Item;
+            private const int NotIdle = -1;
 
-            public int IdleFrames;
+            public readonly ShipItem Item;
 
             public float LastHeldTime = float.NegativeInfinity;
 
             private readonly List<Behaviour> switchedOff = new List<Behaviour>();
 
             private bool? mayFreeze;
+
+            private int idleSinceFrame = NotIdle;
+
+            private float idleSinceFixedTime;
 
             public FreezableItem(ShipItem item)
             {
@@ -191,8 +202,34 @@ namespace PerformanceTweaks.Runtime
                 }
 
                 switchedOff.Clear();
-                IdleFrames = 0;
+                MarkBusy();
                 IsFrozen = false;
+            }
+
+            /// <summary>
+            /// Ends the item's idle time, so <see cref="HasIdledLongEnough"/> counts again from the next call.
+            /// </summary>
+            public void MarkBusy()
+            {
+                idleSinceFrame = NotIdle;
+            }
+
+            /// <summary>
+            /// Returns whether the item has been idle for <see cref="IdleFramesBeforeFreezing"/> whole frames and at
+            /// least one physics step since the first call after <see cref="MarkBusy"/>; that first call starts the
+            /// idle time and returns false.
+            /// </summary>
+            public bool HasIdledLongEnough()
+            {
+                if (idleSinceFrame == NotIdle)
+                {
+                    idleSinceFrame = Time.frameCount;
+                    idleSinceFixedTime = Time.fixedTime;
+                    return false;
+                }
+
+                return Time.frameCount - idleSinceFrame > IdleFramesBeforeFreezing
+                    && Time.fixedTime > idleSinceFixedTime;
             }
 
             private void SwitchOff(Behaviour behaviour)
