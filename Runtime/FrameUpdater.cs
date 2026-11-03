@@ -13,6 +13,7 @@ namespace PerformanceTweaks.Runtime
         {
             PauseHiddenRopes();
             FreezeIdleShopItems();
+            RemoveFogWhileOff();
         }
 
         private static void PauseHiddenRopes()
@@ -42,6 +43,21 @@ namespace PerformanceTweaks.Runtime
             catch (Exception ex)
             {
                 TweakGuard.Stop(ModConfig.FreezeIdleShopItems, ex, ShopItemFreezer.ThawAll);
+            }
+        }
+
+        private static void RemoveFogWhileOff()
+        {
+            if (TweakGuard.IsStopped(FogRemoval.TweakName))
+                return;
+
+            try
+            {
+                FogRemoval.Update();
+            }
+            catch (Exception ex)
+            {
+                TweakGuard.Stop(FogRemoval.TweakName, ex, FogRemoval.RestoreAll);
             }
         }
     }

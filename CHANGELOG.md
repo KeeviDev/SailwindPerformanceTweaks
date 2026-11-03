@@ -1,5 +1,9 @@
 # Changelog
 
+### Added
+
+- Volumetric fog turned off in the game settings is now removed from rendering completely, saving graphics card timeі
+
 ### Changed
 
 - A tweak that runs into an error now switches itself off until the game restarts instead of failing every frame

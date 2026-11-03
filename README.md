@@ -25,6 +25,8 @@ Measured in a capital with several boats moored and a full mod list; your number
 
 Together that's several milliseconds in a busy port: at 30 FPS each millisecond saved gives roughly one more frame per second, at 60 FPS roughly four.
 
+**Volumetric fog setting fix:** when you turn volumetric fog off in the game's graphics settings, the game only hides it and keeps your graphics card computing it every frame. With Performance Tweaks, turning the setting off disables the fog completely, which reduces GPU load.
+
 ## Installation
 
 **With a mod manager:** grab Performance Tweaks from Thunderstore with r2modman or Thunderstore Mod Manager — BepInEx comes along automatically.
