@@ -22,13 +22,29 @@ namespace PerformanceTweaks.Patches
 
         /// <summary>
         /// Refreshes the description of <paramref name="state"/>'s food, every frame while
-        /// <see cref="ModConfig.FoodDescriptionsOnDemand"/> is off and otherwise only while the food is looked
-        /// at or held, or on its turn every <see cref="RefreshIntervalFrames"/> frames.
+        /// <see cref="ModConfig.FoodDescriptionsOnDemand"/> is off or stopped by an error, and otherwise only while the
+        /// food is looked at or held, or on its turn every <see cref="RefreshIntervalFrames"/> frames.
         /// </summary>
         public static void RefreshIfNeeded(FoodState state)
         {
-            if (!ModConfig.FoodDescriptionsOnDemand.Value || IsShown(FoodOf(state)) || IsOnTurn(state))
+            if (NeedsRefresh(state))
                 UpdateLookText(state);
+        }
+
+        private static bool NeedsRefresh(FoodState state)
+        {
+            if (!TweakGuard.IsOn(ModConfig.FoodDescriptionsOnDemand))
+                return true;
+
+            try
+            {
+                return IsShown(FoodOf(state)) || IsOnTurn(state);
+            }
+            catch (Exception ex)
+            {
+                TweakGuard.Stop(ModConfig.FoodDescriptionsOnDemand, ex);
+                return true;
+            }
         }
 
         private static bool IsShown(ShipItemFood food)

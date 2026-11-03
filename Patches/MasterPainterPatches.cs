@@ -1,4 +1,6 @@
+using System;
 using HarmonyLib;
+using PerformanceTweaks.Configuration;
 using PerformanceTweaks.Runtime;
 
 namespace PerformanceTweaks.Patches
@@ -8,7 +10,17 @@ namespace PerformanceTweaks.Patches
     {
         private static void Postfix(MasterPainter __instance)
         {
-            DirtCameraSwitch.Apply(__instance);
+            if (TweakGuard.IsStopped(ModConfig.DirtCameraOnDemand))
+                return;
+
+            try
+            {
+                DirtCameraSwitch.Apply(__instance);
+            }
+            catch (Exception ex)
+            {
+                DirtCameraSwitch.Stop(ex);
+            }
         }
     }
 
@@ -20,7 +32,17 @@ namespace PerformanceTweaks.Patches
     {
         private static void Prefix(MasterPainter __instance)
         {
-            DirtCameraSwitch.RenderForClean(__instance);
+            if (TweakGuard.IsStopped(ModConfig.DirtCameraOnDemand))
+                return;
+
+            try
+            {
+                DirtCameraSwitch.RenderForClean(__instance);
+            }
+            catch (Exception ex)
+            {
+                DirtCameraSwitch.Stop(ex);
+            }
         }
     }
 }

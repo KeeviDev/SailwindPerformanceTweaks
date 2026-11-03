@@ -1,4 +1,6 @@
+using System;
 using HarmonyLib;
+using PerformanceTweaks.Configuration;
 using PerformanceTweaks.Runtime;
 
 namespace PerformanceTweaks.Patches
@@ -12,7 +14,18 @@ namespace PerformanceTweaks.Patches
     {
         private static bool Prefix(CrateInventory __instance)
         {
-            return !UnmovedCrateContents.CanSkip(__instance);
+            if (TweakGuard.IsStopped(ModConfig.SkipUnmovedCrateContents))
+                return true;
+
+            try
+            {
+                return !UnmovedCrateContents.CanSkip(__instance);
+            }
+            catch (Exception ex)
+            {
+                TweakGuard.Stop(ModConfig.SkipUnmovedCrateContents, ex);
+                return true;
+            }
         }
     }
 }

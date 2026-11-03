@@ -1,6 +1,7 @@
+using System;
 using HarmonyLib;
+using PerformanceTweaks.Configuration;
 using PerformanceTweaks.Runtime;
-using UnityEngine;
 
 namespace PerformanceTweaks.Patches
 {
@@ -13,7 +14,18 @@ namespace PerformanceTweaks.Patches
     {
         private static bool Prefix(ItemRigidbody __instance, ShipItem ___item)
         {
-            return !ItemPlacement.TryPlace(__instance.transform, ___item);
+            if (TweakGuard.IsStopped(ModConfig.SkipRedundantItemUpdates))
+                return true;
+
+            try
+            {
+                return !ItemPlacement.TryPlace(__instance.transform, ___item);
+            }
+            catch (Exception ex)
+            {
+                TweakGuard.Stop(ModConfig.SkipRedundantItemUpdates, ex);
+                return true;
+            }
         }
     }
 }

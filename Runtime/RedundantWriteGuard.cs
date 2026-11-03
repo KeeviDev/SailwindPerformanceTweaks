@@ -5,7 +5,7 @@ namespace PerformanceTweaks.Runtime
 {
     /// <summary>
     /// Provides setters that leave the target untouched when it already holds the value, while
-    /// <see cref="ModConfig.SkipRedundantItemUpdates"/> is on.
+    /// <see cref="ModConfig.SkipRedundantItemUpdates"/> is on and has not been stopped by an error.
     /// </summary>
     internal static class RedundantWriteGuard
     {
@@ -16,7 +16,7 @@ namespace PerformanceTweaks.Runtime
 
         public static bool IsSkipping
         {
-            get { return ModConfig.SkipRedundantItemUpdates.Value; }
+            get { return TweakGuard.IsOn(ModConfig.SkipRedundantItemUpdates); }
         }
 
         /// <summary>

@@ -82,6 +82,20 @@ namespace PerformanceTweaks.Runtime
                 entry.Thaw();
         }
 
+        /// <summary>
+        /// Thaws every frozen shop item.
+        /// </summary>
+        public static void ThawAll()
+        {
+            foreach (FreezableItem entry in items)
+            {
+                if (entry.IsFrozen)
+                    entry.Thaw();
+            }
+
+            hasFrozenItems = false;
+        }
+
         private static void UpdateEntry(FreezableItem entry, bool isFreezing)
         {
             if (entry.Item.held)

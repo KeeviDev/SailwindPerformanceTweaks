@@ -51,12 +51,26 @@ namespace PerformanceTweaks
         }
 
         /// <summary>
-        /// Applies every Harmony patch in this assembly.
+        /// Applies every Harmony patch class in this assembly, logs each class that fails to apply, and logs each
+        /// patched method.
         /// </summary>
         private static void ApplyHarmonyPatches()
         {
             var harmony = new Harmony(PLUGIN_GUID);
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            foreach (Type patchClass in AccessTools.GetTypesFromAssembly(Assembly.GetExecutingAssembly()))
+            {
+                try
+                {
+                    harmony.CreateClassProcessor(patchClass).Patch();
+                }
+                catch (Exception ex)
+                {
+                    Log.LogError(string.Format(
+                        "Could not apply the patches in {0} - the game may have updated. Its tweak stays off: {1}",
+                        patchClass.Name,
+                        ex));
+                }
+            }
 
             foreach (MethodBase method in harmony.GetPatchedMethods())
             {
@@ -69,10 +83,25 @@ namespace PerformanceTweaks
         /// </summary>
         private static void ApplySettingChangesImmediately()
         {
-            ModConfig.SkipUnchangedRopes.SettingChanged += (sender, args) => RopeLod.RebuildAll();
-            ModConfig.SimplifyDistantRopes.SettingChanged += (sender, args) => RopeLod.RebuildAll();
+            ModConfig.SkipUnchangedRopes.SettingChanged += (sender, args) => RebuildRopes();
+            ModConfig.SimplifyDistantRopes.SettingChanged += (sender, args) => RebuildRopes();
             ModConfig.DirtCameraOnDemand.SettingChanged += (sender, args) => DirtCameraSwitch.Apply(MasterPainter.instance);
             ModConfig.OutlineCamerasOnDemand.SettingChanged += (sender, args) => OutlineEffectPatch.Forget();
+        }
+
+        private static void RebuildRopes()
+        {
+            if (RopeLodGuard.IsStopped)
+                return;
+
+            try
+            {
+                RopeLod.RebuildAll();
+            }
+            catch (Exception ex)
+            {
+                RopeLodGuard.Stop(ex);
+            }
         }
     }
 }

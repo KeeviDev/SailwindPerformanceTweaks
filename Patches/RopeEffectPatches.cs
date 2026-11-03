@@ -1,4 +1,6 @@
+using System;
 using HarmonyLib;
+using PerformanceTweaks.Configuration;
 using PerformanceTweaks.Runtime;
 using UnityEngine;
 
@@ -17,7 +19,18 @@ namespace PerformanceTweaks.Patches
             ref float ___distanceCheckTimer,
             ref bool ___outOfRange)
         {
-            return !RopeLod.TryUpdate(__instance, ___lineRenderer, ___clothRope, ref ___distanceCheckTimer, ref ___outOfRange);
+            if (RopeLodGuard.IsStopped)
+                return true;
+
+            try
+            {
+                return !RopeLod.TryUpdate(__instance, ___lineRenderer, ___clothRope, ref ___distanceCheckTimer, ref ___outOfRange);
+            }
+            catch (Exception ex)
+            {
+                RopeLodGuard.Stop(ex);
+                return true;
+            }
         }
     }
 
@@ -26,7 +39,17 @@ namespace PerformanceTweaks.Patches
     {
         private static void Postfix(RopeEffect __instance)
         {
-            HiddenRopePauser.Register(__instance);
+            if (TweakGuard.IsStopped(ModConfig.PauseHiddenRopes))
+                return;
+
+            try
+            {
+                HiddenRopePauser.Register(__instance);
+            }
+            catch (Exception ex)
+            {
+                TweakGuard.Stop(ModConfig.PauseHiddenRopes, ex, HiddenRopePauser.ResumeAll);
+            }
         }
     }
 
@@ -35,7 +58,17 @@ namespace PerformanceTweaks.Patches
     {
         private static void Postfix(RopeEffect __instance)
         {
-            RopeLod.Forget(__instance);
+            if (RopeLodGuard.IsStopped)
+                return;
+
+            try
+            {
+                RopeLod.Forget(__instance);
+            }
+            catch (Exception ex)
+            {
+                RopeLodGuard.Stop(ex);
+            }
         }
     }
 }

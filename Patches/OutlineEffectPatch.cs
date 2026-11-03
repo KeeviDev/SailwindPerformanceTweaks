@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using cakeslice;
 using HarmonyLib;
@@ -7,7 +8,7 @@ namespace PerformanceTweaks.Patches
 {
     /// <summary>
     /// Skips rendering an outline camera while nothing is outlined and <see cref="ModConfig.OutlineCamerasOnDemand"/>
-    /// is on, except for the first idle frame.
+    /// is on and has not been stopped by an error, except for the first idle frame.
     /// </summary>
     [HarmonyPatch(typeof(OutlineEffect), nameof(OutlineEffect.OnPreRender))]
     internal static class OutlineEffectPatch
@@ -27,13 +28,21 @@ namespace PerformanceTweaks.Patches
 
         private static bool Prefix(OutlineEffect __instance, LinkedSet<Outline> ___outlines)
         {
-            if (!ModConfig.OutlineCamerasOnDemand.Value || ___outlines == null || OutlineList(___outlines).Count > 0)
+            try
             {
-                clearedWhileIdle.Remove(__instance);
+                if (!TweakGuard.IsOn(ModConfig.OutlineCamerasOnDemand) || ___outlines == null || OutlineList(___outlines).Count > 0)
+                {
+                    clearedWhileIdle.Remove(__instance);
+                    return true;
+                }
+
+                return clearedWhileIdle.Add(__instance);
+            }
+            catch (Exception ex)
+            {
+                TweakGuard.Stop(ModConfig.OutlineCamerasOnDemand, ex);
                 return true;
             }
-
-            return clearedWhileIdle.Add(__instance);
         }
     }
 }

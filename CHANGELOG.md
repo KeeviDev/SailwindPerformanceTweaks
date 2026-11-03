@@ -1,5 +1,9 @@
 # Changelog
 
+### Changed
+
+- A tweak that runs into an error now switches itself off until the game restarts instead of failing every frame
+
 ### Fixed
 
 - Food and pipes in shops no longer keep smoking until you look at them when they appeared at night

@@ -61,6 +61,20 @@ namespace PerformanceTweaks.Runtime
             }
         }
 
+        /// <summary>
+        /// Enables every registered rope.
+        /// </summary>
+        public static void ResumeAll()
+        {
+            foreach (PausableRope entry in ropes)
+            {
+                if (entry.Rope != null && !entry.Rope.enabled)
+                    entry.Rope.enabled = true;
+            }
+
+            hasPausedRopes = false;
+        }
+
         private static bool NeedsUpdate(PausableRope entry)
         {
             RopeEffect rope = entry.Rope;

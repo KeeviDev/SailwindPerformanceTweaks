@@ -20,7 +20,7 @@ namespace PerformanceTweaks.Patches
 
         private static void Prefix(out bool __state)
         {
-            __state = ModConfig.SkipSyncForSailWindShadows.Value && Physics.autoSyncTransforms;
+            __state = TweakGuard.IsOn(ModConfig.SkipSyncForSailWindShadows) && Physics.autoSyncTransforms;
             if (__state)
                 Physics.autoSyncTransforms = false;
         }

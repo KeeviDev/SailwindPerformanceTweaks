@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using PerformanceTweaks.Configuration;
 using UnityEngine;
@@ -23,9 +24,18 @@ namespace PerformanceTweaks.Runtime
                 return;
 
             Camera camera = painter.GetComponent<Camera>();
-            bool shouldRender = !ModConfig.DirtCameraOnDemand.Value || Time.frameCount <= renderUntilFrame;
+            bool shouldRender = !TweakGuard.IsOn(ModConfig.DirtCameraOnDemand) || Time.frameCount <= renderUntilFrame;
             if (camera != null && camera.enabled != shouldRender)
                 camera.enabled = shouldRender;
+        }
+
+        /// <summary>
+        /// Turns <see cref="ModConfig.DirtCameraOnDemand"/> off until the game restarts, logs <paramref name="error"/>
+        /// and switches the dirt camera back on.
+        /// </summary>
+        public static void Stop(Exception error)
+        {
+            TweakGuard.Stop(ModConfig.DirtCameraOnDemand, error, () => Apply(MasterPainter.instance));
         }
 
         /// <summary>
