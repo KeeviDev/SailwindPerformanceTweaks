@@ -4,7 +4,7 @@
 
 ### Added
 
-- Volumetric fog turned off in the game settings is now removed from rendering completely, saving graphics card timeі
+- Volumetric fog turned off in the game settings is now removed from rendering completely, saving graphics card time
 
 ### Changed
 
