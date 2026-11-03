@@ -1,5 +1,7 @@
 # Changelog
 
+## [1.1.0] - 2026-11-03
+
 ### Added
 
 - Volumetric fog turned off in the game settings is now removed from rendering completely, saving graphics card timeі
@@ -26,4 +28,5 @@
 - Cheaper wind shadow checks between sails
 - Dirt and outline cameras that render only when needed
 
+[1.1.0]: https://github.com/KeeviDev/SailwindPerformanceTweaks/releases/tag/v1.1.0
 [1.0.0]: https://github.com/KeeviDev/SailwindPerformanceTweaks/releases/tag/v1.0.0

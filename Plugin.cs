@@ -16,7 +16,7 @@ namespace PerformanceTweaks
     {
         public const string PLUGIN_GUID = "com.keevi.performancetweaks";
         public const string PLUGIN_NAME = "Performance Tweaks";
-        public const string PLUGIN_VERSION = "1.0.0";
+        public const string PLUGIN_VERSION = "1.1.0";
 
         internal static ManualLogSource Log { get; private set; }
 

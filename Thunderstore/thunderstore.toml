@@ -4,7 +4,7 @@ schemaVersion = "0.0.1"
 [package]
 namespace = "Keevi"
 name = "PerformanceTweaks"
-versionNumber = "1.0.0"
+versionNumber = "1.1.0"
 description = "Optimization mod for Sailwind: higher FPS and better overall performance"
 websiteUrl = "https://github.com/KeeviDev/SailwindPerformanceTweaks"
 containsNsfwContent = false
